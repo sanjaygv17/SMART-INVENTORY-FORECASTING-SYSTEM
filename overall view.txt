@@ -1,0 +1,139 @@
+Frontend
+   ↓
+Backend API
+   ↓
+Database
+   ↓
+XGBoost Model
+   ↓
+Prediction
+   ↓
+Inventory Logic
+   ↓
+Dashboard Update
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+FreshMart-AI/
+│
+├── frontend/
+│
+├── backend/
+│
+├── ml_models/
+│
+├── database/
+│
+├── datasets/
+│
+├── reports/
+│
+├── docs/
+│
+├── requirements.txt
+│
+└── README.md
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+frontend/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── assets/
+│   │   ├── images/
+│   │   ├── icons/
+│   │
+│   ├── components/
+│   │   ├── Sidebar.jsx
+│   │   ├── Navbar.jsx
+│   │   ├── KPIcard.jsx
+│   │   ├── SalesChart.jsx
+│   │   ├── InventoryTable.jsx
+│   │
+│   ├── pages/
+│   │   ├── Login.jsx
+│   │   ├── Dashboard.jsx
+│   │   ├── Products.jsx
+│   │   ├── Transactions.jsx
+│   │   ├── Forecasting.jsx
+│   │   ├── CategoryAnalysis.jsx
+│   │   ├── ProductPrediction.jsx
+│   │   ├── Inventory.jsx
+│   │   ├── Alerts.jsx
+│   │   ├── Analytics.jsx
+│   │
+│   ├── api/
+│   │   └── api.js
+│   │
+│   ├── App.jsx
+│   └── main.jsx
+│
+└── package.json
+
+_____________-----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+backend/
+│
+├── app.py
+│
+├── routes/
+│   ├── product_routes.py
+│   ├── transaction_routes.py
+│   ├── forecast_routes.py
+│   ├── inventory_routes.py
+│
+├── services/
+│   ├── train_model.py
+│   ├── predict_sales.py
+│   ├── inventory_logic.py
+│
+├── utils/
+│   ├── data_cleaning.py
+│   ├── weekly_aggregation.py
+│
+└── config.py
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+ml_models/
+│
+├── training/
+│   ├── train_xgboost.py
+│   ├── train_lstm.py
+│   └── model_comparison.py
+│
+├── saved_models/
+│   ├── xgboost_model.pkl
+│   ├── lstm_model.h5
+│
+├── prediction/
+│   └── predict.py
+│
+└── preprocessing/
+    ├── feature_engineering.py
+    └── encode_features.py
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+

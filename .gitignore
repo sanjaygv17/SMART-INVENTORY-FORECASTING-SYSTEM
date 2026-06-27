@@ -1,0 +1,24 @@
+# Node
+node_modules/
+
+# Environment variables
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# ML Models
+*.pkl
+*.joblib
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db

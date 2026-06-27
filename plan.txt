@@ -1,0 +1,182 @@
+========================================
+SMART INVENTORY FORECASTING SYSTEM
+30-Day Development Plan
+========================================
+
+WEEK 1: ML FOUNDATION & DATA PIPELINE
+========================================
+Day 1: Setup & Validation
+  - Learn: Data pipeline concept
+  - Task: Run preprocessing.py to test data flow
+  - Files: ml/scripts/preprocessing.py
+
+Day 2: Feature Engineering
+  - Learn: Lag features, rolling averages
+  - Task: Run feature_engineering.py
+  - Files: ml/scripts/feature_engineering.py
+
+Day 3: Model Training
+  - Learn: Train/test split, XGBoost
+  - Task: Run train_xgboost.py
+  - Files: ml/scripts/train_xgboost.py
+
+Day 4: Prediction Script
+  - Learn: Model loading, inference
+  - Task: Test predict.py with sample products
+  - Files: ml/scripts/predict.py
+
+Day 5: Category-level Model
+  - Learn: Aggregation levels (product vs category)
+  - Task: Create train_category_xgboost.py
+  - Files: ml/scripts/train_category_xgboost.py
+
+Day 6: API Integration Prep
+  - Learn: How backend calls ML scripts
+  - Task: Create ml/scripts/api_predict.py (wrapper)
+  - Files: ml/scripts/api_predict.py
+
+Day 7: Review & Documentation
+  - Task: Document ml/ folder and test all scripts work
+  - Files: ml/README.md (updated)
+
+========================================
+WEEK 2: BACKEND API SCAFFOLD
+========================================
+Day 8: Backend Setup
+  - Learn: Node.js, Express basics
+  - Task: Initialize backend folder
+  - Files: backend/package.json, backend/server.js
+
+Day 9: Database Schema Design
+  - Learn: MongoDB collections, schemas
+  - Task: Design collections (products, transactions, stock, forecasts)
+  - Files: backend/src/models/ (schema files)
+
+
+Day 10: MongoDB Connection
+Learn:
+• MongoDB Atlas
+• Connection String
+• Mongoose connect()
+Task:
+• Create MongoDB Atlas Cluster
+• Connect Express Backend to MongoDB
+• Test Connection
+Files:
+backend/src/config/db.js
+backend/.env
+backend/server.js
+Day 10: Transaction API
+  - Learn: REST POST/GET endpoints
+  - Task: Build POST /api/transactions endpoint
+  - Files: backend/src/routes/transactions.js
+
+Day 11: Stock Management
+  - Learn: Stock update logic after transaction
+  - Task: Build stock update service
+  - Files: backend/src/services/stockService.js
+
+Day 12: Prediction Endpoints
+  - Learn: Calling Python scripts from Node
+  - Task: Build GET /api/predict-product and GET /api/predict-category
+  - Files: backend/src/routes/predictions.js, backend/src/services/mlService.js
+
+Day 13: Inventory Alerts Logic
+  - Learn: Safety stock, reorder point formulas
+  - Task: Build alert generation service
+  - Files: backend/src/services/inventoryService.js
+
+Day 14: Dashboard Data Endpoint
+  - Learn: Aggregating data for dashboard
+  - Task: Build GET /api/dashboard-data endpoint
+  - Files: backend/src/routes/dashboard.js
+
+========================================
+WEEK 3: FRONTEND SCAFFOLD & PAGES
+========================================
+Day 15: Frontend Setup
+  - Learn: React, Tailwind basics
+  - Task: Initialize React app
+  - Files: frontend/package.json, frontend/src/App.jsx
+
+Day 16: Layout Components
+  - Learn: React components, routing
+  - Task: Build Navbar, Sidebar, layout
+  - Files: frontend/src/components/Navbar.jsx, Sidebar.jsx, Layout.jsx
+
+Day 17: Dashboard Page
+  - Learn: KPI cards, charts, data display
+  - Task: Build dashboard with sample data
+  - Files: frontend/src/pages/Dashboard.jsx
+
+Day 18: Transaction Form Page
+  - Learn: Form handling, validation
+  - Task: Build manual transaction entry form
+  - Files: frontend/src/pages/Transactions.jsx
+
+Day 19: API Client
+  - Learn: Axios, fetch from backend
+  - Task: Build API client module
+  - Files: frontend/src/api/client.js
+
+Day 20: Connect Dashboard to Backend
+  - Task: Wire dashboard to fetch real data
+  - Files: frontend/src/pages/Dashboard.jsx (updated)
+
+Day 21: Product & Category Pages
+  - Task: Build forecasting/prediction display pages
+  - Files: frontend/src/pages/ProductPrediction.jsx, CategoryAnalysis.jsx
+
+========================================
+WEEK 4: ALERTS, INVENTORY, ANALYTICS & POLISH
+========================================
+Day 22: Alerts Page
+  - Learn: Alert severity, display
+  - Task: Build alerts display and history
+  - Files: frontend/src/pages/Alerts.jsx
+
+Day 23: Inventory Management Page
+  - Learn: Stock levels, reorder recommendations
+  - Task: Build inventory dashboard
+  - Files: frontend/src/pages/Inventory.jsx
+
+Day 24: Analytics Page (Model Comparison)
+  - Learn: ARIMA vs LSTM vs XGBoost metrics
+  - Task: Create analytics page with model metrics
+  - Files: frontend/src/pages/Analytics.jsx
+
+Day 25: Weekly Retraining Job
+  - Learn: Scheduled tasks, cron jobs
+  - Task: Build retraining orchestration
+  - Files: backend/src/jobs/weeklyRetrain.js
+
+Day 26: Batch Forecasting
+  - Learn: Bulk predictions for all products
+  - Task: Build batch forecast generator
+  - Files: backend/src/jobs/batchForecast.js, ml/scripts/batch_forecast.py
+
+Day 27: Error Handling & Logging
+  - Learn: Try-catch, logging best practices
+  - Task: Add error handling throughout
+  - Files: backend/src/utils/logger.js, error middleware
+
+Day 28: Testing & Bug Fixes
+  - Task: Test full flow (transaction → stock → forecast → alert → dashboard)
+  - Files: Test scenarios documented
+
+Day 29: UI Polish & Responsive Design
+  - Task: Improve layout, add charts, style refinement
+  - Files: frontend/src/components/ (styling updates)
+
+Day 30: Documentation & Project Review
+  - Task: Write README, API docs, deployment guide
+  - Files: docs/API.md, docs/DEPLOYMENT.md, docs/DATABASE.md
+
+========================================
+KEY DEPENDENCIES TO INSTALL
+========================================
+Backend: Express, MongoDB, Axios, Dotenv, Cron
+Frontend: React, Tailwind, Axios, Recharts
+ML: Pandas, XGBoost, Scikit-learn, Joblib
+
+========================================

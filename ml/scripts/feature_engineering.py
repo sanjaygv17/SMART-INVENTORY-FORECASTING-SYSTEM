@@ -1,0 +1,67 @@
+"""
+Feature engineering for weekly aggregation and lag/rolling features.
+Input: ../data/cleaned/cleaned_data.csv
+Output: ../data/cleaned/final_forecasting_data.csv and product_weekly.csv
+Run: python ml/scripts/feature_engineering.py
+"""
+
+import os
+import pandas as pd
+
+CLEANED_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'cleaned')
+IN_FILE = os.path.join(CLEANED_PATH, 'cleaned_data.csv')
+OUT_FORECAST = os.path.join(CLEANED_PATH, 'final_forecasting_data.csv')
+OUT_PRODUCT_WEEKLY = os.path.join(CLEANED_PATH, 'product_weekly.csv')
+
+
+def main():
+    df = pd.read_csv(IN_FILE, parse_dates=['Invoice_Date'])
+
+    # Create Year, Month, Week
+    df['Year'] = df['Invoice_Date'].dt.year
+    df['Month'] = df['Invoice_Date'].dt.month
+    df['Week'] = df['Invoice_Date'].dt.isocalendar().week
+
+    # Aggregate to weekly product level (use Month from first transaction in each week)
+    agg_dict = {
+        'Units': 'sum',
+        'Revenue': 'sum',
+        'Margin': 'sum',
+        'Stock_On_Hand': 'mean',
+        'Month': 'first'
+    }
+    product_weekly = df.groupby(['Year', 'Week', 'Category', 'Brand', 'Product_Name']).agg(agg_dict).reset_index()
+
+    product_weekly.rename(columns={
+        'Units': 'Weekly_Units_Sold',
+        'Revenue': 'Weekly_Revenue',
+        'Margin': 'Weekly_Margin',
+        'Stock_On_Hand': 'Average_Stock',
+        'Month': 'Month'
+    }, inplace=True)
+
+    product_weekly = product_weekly.sort_values(by=['Product_Name', 'Year', 'Week'])
+
+    # Lags
+    product_weekly['Lag_1'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].shift(1)
+    product_weekly['Lag_2'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].shift(2)
+    product_weekly['Lag_3'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].shift(3)
+    product_weekly['Lag_4'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].shift(4)
+
+    # Rolling
+    product_weekly['Rolling_4_Week_Avg'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].transform(lambda x: x.rolling(4).mean())
+    product_weekly['Rolling_8_Week_Avg'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].transform(lambda x: x.rolling(8).mean())
+
+    # Target: next week
+    product_weekly['Target'] = product_weekly.groupby('Product_Name')['Weekly_Units_Sold'].shift(-1)
+
+    product_weekly = product_weekly.dropna()
+
+    os.makedirs(CLEANED_PATH, exist_ok=True)
+    product_weekly.to_csv(OUT_PRODUCT_WEEKLY, index=False)
+    product_weekly.to_csv(OUT_FORECAST, index=False)
+    print('Feature engineering completed. Outputs:', OUT_PRODUCT_WEEKLY, OUT_FORECAST)
+
+
+if __name__ == '__main__':
+    main()
