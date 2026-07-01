@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./src/config/db");
-
+const transactionRoutes = require("./src/routes/transactions");
 const predictRoutes = require("./routes/predictRoutes");
 
 const app = express();
@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", predictRoutes);
+app.use("/api/transactions", transactionRoutes);
 
 const PORT = process.env.PORT || 5000;
 

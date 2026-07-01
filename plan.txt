@@ -66,6 +66,7 @@ Files:
 backend/src/config/db.js
 backend/.env
 backend/server.js
+
 Day 10: Transaction API
   - Learn: REST POST/GET endpoints
   - Task: Build POST /api/transactions endpoint
