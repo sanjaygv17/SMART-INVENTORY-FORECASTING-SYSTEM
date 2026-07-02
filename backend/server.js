@@ -4,8 +4,9 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./src/config/db");
+
 const transactionRoutes = require("./src/routes/transactions");
-const predictRoutes = require("./routes/predictRoutes");
+const predictionRoutes = require("./src/routes/predictions");
 
 const app = express();
 
@@ -14,12 +15,13 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
     res.json({
-        message: "FreshMart Backend Running Successfully"
+        message: "Smart Inventory Management System API Running Successfully"
     });
 });
 
-app.use("/api", predictRoutes);
+
 app.use("/api/transactions", transactionRoutes);
+app.use("/api", predictionRoutes);
 
 const PORT = process.env.PORT || 5000;
 
