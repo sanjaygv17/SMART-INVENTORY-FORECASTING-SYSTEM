@@ -7,6 +7,9 @@ const updateStock = async (productName, quantitySold) => {
     if (!stock) {
         throw new Error("Stock record not found");
     }
+    if (stock.currentStock < quantitySold) {
+    throw new Error("Insufficient stock available");
+}
 
     stock.currentStock -= quantitySold;
 

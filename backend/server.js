@@ -7,6 +7,8 @@ const connectDB = require("./src/config/db");
 
 const transactionRoutes = require("./src/routes/transactions");
 const predictionRoutes = require("./src/routes/predictions");
+const dashboardRoutes = require("./src/routes/dashboard");
+const productRoutes = require("./src/routes/products");
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/transactions", transactionRoutes);
 app.use("/api", predictionRoutes);
+app.use("/api", dashboardRoutes);
+app.use("/api/products", productRoutes);
 
 const PORT = process.env.PORT || 5000;
 
