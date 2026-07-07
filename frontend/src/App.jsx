@@ -1,24 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Layout from "./layouts/Layout";
+
+import Dashboard from "./pages/Dashboard";
+import Products from "./pages/Products";
+import Transactions from "./pages/Transactions";
+import Inventory from "./pages/Inventory";
+import Alerts from "./pages/Alerts";
+import Analytics from "./pages/Analytics";
 
 function App() {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="rounded-xl bg-white p-8 shadow-lg">
-        <h1 className="text-4xl font-bold text-blue-600">
-          Smart Inventory Management System
-        </h1>
+    return (
+        <BrowserRouter>
+            <Routes>
 
-        <p className="mt-4 text-gray-600">
-          React + Vite + Tailwind CSS Setup Successful
-        </p>
-      </div>
-    </div>
-  );
+                <Route path="/" element={<Layout />}>
+
+                    <Route index element={<Dashboard />} />
+
+                    <Route path="products" element={<Products />} />
+
+                    <Route path="transactions" element={<Transactions />} />
+
+                    <Route path="inventory" element={<Inventory />} />
+
+                    <Route path="alerts" element={<Alerts />} />
+
+                    <Route path="analytics" element={<Analytics />} />
+
+                </Route>
+
+            </Routes>
+        </BrowserRouter>
+    );
 }
 
 export default App;
-

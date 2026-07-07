@@ -100,7 +100,7 @@ Day 15: Frontend Setup
   - Task: Initialize React app
   - Files: frontend/package.json, frontend/src/App.jsx
 
-Day 16: Layout Components
+Day 16: Layout Components\
   - Learn: React components, routing
   - Task: Build Navbar, Sidebar, layout
   - Files: frontend/src/components/Navbar.jsx, Sidebar.jsx, Layout.jsx
