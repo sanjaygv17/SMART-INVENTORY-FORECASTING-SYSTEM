@@ -2,25 +2,33 @@ function Navbar() {
     return (
         <nav className="bg-blue-600 text-white shadow-md">
 
-            <div className="mx-auto flex h-16 items-center justify-between px-6">
+           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
 
-                <h1 className="text-xl font-bold">
-                    Smart Inventory Management System
-                </h1>
+    <div>
 
-                <div className="flex items-center gap-4">
+        <h1 className="text-4xl font-bold text-slate-800">
+            Welcome Back, Admin 👋
+        </h1>
 
-                    <button className="rounded-lg bg-blue-700 px-3 py-2 hover:bg-blue-800">
-                        Notifications
-                    </button>
+        <p className="mt-2 text-white-500">
+            Smart Inventory Management Dashboard
+        </p>
 
-                    <div className="rounded-full bg-white px-4 py-2 font-semibold text-blue-600">
-                        Admin
-                    </div>
+    </div>
 
-                </div>
+    <div className="bg-gray-100 px-5 py-3 shadow">
 
-            </div>
+        <p className="text-sm text-gray-500">
+            Today's Date
+        </p>
+
+        <h2 className="text-lg font-semibold text-slate-700">
+            {new Date().toLocaleDateString()}
+        </h2>
+
+    </div>
+
+</div>
 
         </nav>
     );
