@@ -8,6 +8,7 @@ import Transactions from "./pages/Transactions";
 import Inventory from "./pages/Inventory";
 import Alerts from "./pages/Alerts";
 import Analytics from "./pages/Analytics";
+import ProductPrediction from "./pages/ProductPrediction";
 
 function App() {
     return (
@@ -27,6 +28,8 @@ function App() {
                     <Route path="alerts" element={<Alerts />} />
 
                     <Route path="analytics" element={<Analytics />} />
+
+                    <Route path="product-prediction" element={<ProductPrediction />} />
 
                 </Route>
 

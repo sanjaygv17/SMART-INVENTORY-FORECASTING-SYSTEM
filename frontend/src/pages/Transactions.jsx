@@ -1,6 +1,7 @@
 import { useState } from "react";
 import client from "../api/client";
 import { useEffect } from "react";
+import ProductSearch from "../components/ProductSearch";
 
 function Transactions() {
 
@@ -145,17 +146,22 @@ const handleChange = (e) => {
 
     return (
 
-        <div className="max-w-3xl">
+        <div className="mx-auto w-full max-w-4xl space-y-8">
 
             {/* Page Heading */}
 
             <div className="mb-8">
 
-                <h1 className="text-4xl font-bold text-slate-800">
+               <div className="space-y-2">
+    <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+        Transaction Management
+    </h1>
 
-                    New Transaction
-
-                </h1>
+    <p className="max-w-2xl text-sm text-slate-600 md:text-base">
+        Record new FMCG sales transactions to automatically update inventory and
+        support demand forecasting.
+    </p>
+</div>
 
                 <p className="mt-2 text-gray-500">
 
@@ -167,7 +173,7 @@ const handleChange = (e) => {
 
             {/* Form Card */}
 
-            <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-md">
+            <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/60 md:p-8">
 
                 <form onSubmit={handleSubmit}>
 
@@ -189,12 +195,12 @@ const handleChange = (e) => {
                                 value={formData.productName}
                                 onChange={handleChange}
                                 placeholder="Enter product name"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"
+                                className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white"
                             />
 
                             {showSuggestions && (
 
-    <div className="mt-2 max-h-60 overflow-y-auto rounded-lg border border-gray-300 bg-white shadow-lg">
+    <div className="mt-2 max-h-60 overflow-y-auto rounded-lg border border-slate-300 bg-white shadow-lg">
 
         {loadingProducts ? (
 
@@ -270,7 +276,7 @@ const handleChange = (e) => {
                                 value={formData.quantitySold}
                                 onChange={handleChange}
                                 placeholder="Enter quantity"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"
+                               className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white"
                             />
                             {
     errors.quantitySold && (
@@ -292,14 +298,15 @@ const handleChange = (e) => {
 
                             </label>
 
-                            <input
-                                type="number"
-                                name="revenue"
-                                value={formData.revenue}
-                                onChange={handleChange}
-                                placeholder="Enter revenue"
-                                className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500"
-                            />
+                           <ProductSearch
+    value={formData.productName}
+    onSelect={(product) =>
+        setFormData({
+            ...formData,
+            productName: product.productName
+        })
+    }
+/>
                             {
     errors.revenue && (
         <p className="mt-2 text-sm text-red-500">
@@ -340,23 +347,8 @@ const handleChange = (e) => {
 
             </div>
 
-            {/* Learning Section (Remove Later) */}
-
-            <div className="mt-8 rounded-xl bg-slate-900 p-6 text-white">
-
-                <h2 className="mb-3 text-lg font-semibold">
-
-                    Current Form State
-
-                </h2>
-
-                <pre className="overflow-x-auto">
-
-                    {JSON.stringify(formData, null, 2)}
-
-                </pre>
-
-            </div>
+           
+            
 
         </div>
 

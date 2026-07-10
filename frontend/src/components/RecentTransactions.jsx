@@ -1,38 +1,63 @@
-const recentTransactions = [
-    {
-        id: 1,
-        product: "Amul Butter",
-        quantity: 20,
-        revenue: 1100
-    },
-    {
-        id: 2,
-        product: "Pepsi",
-        quantity: 15,
-        revenue: 750
-    },
-    {
-        id: 3,
-        product: "Lays Classic",
-        quantity: 30,
-        revenue: 900
-    },
-    {
-        id: 4,
-        product: "Good Day Biscuit",
-        quantity: 25,
-        revenue: 625
-    }
-];
+import { useEffect, useState } from "react";
+import client from "../api/client";
 
 function RecentTransactions() {
+
+    const [transactions, setTransactions] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchTransactions = async () => {
+
+        try {
+
+            const response = await client.get("/transactions/recent");
+
+            setTransactions(response.data.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+    useEffect(() => {
+
+        fetchTransactions();
+
+    }, []);
+
+    if (loading) {
+
+        return (
+
+            <div className="rounded-xl bg-white p-6 shadow-md">
+
+                <h2 className="text-xl font-semibold">
+
+                    Loading Transactions...
+
+                </h2>
+
+            </div>
+
+        );
+
+    }
 
     return (
 
         <div className="rounded-xl bg-white p-6 shadow-md">
 
             <h2 className="mb-6 text-xl font-semibold">
+
                 Recent Transactions
+
             </h2>
 
             <table className="min-w-full">
@@ -59,28 +84,53 @@ function RecentTransactions() {
 
                 <tbody>
 
-                    {recentTransactions.map((transaction) => (
+                    {transactions.length === 0 ? (
 
-                        <tr
-                            key={transaction.id}
-                            className="border-b hover:bg-gray-50"
-                        >
+                        <tr>
 
-                            <td className="py-3">
-                                {transaction.product}
-                            </td>
+                            <td
+                                colSpan="3"
+                                className="py-4 text-center text-gray-500"
+                            >
 
-                            <td>
-                                {transaction.quantity}
-                            </td>
+                                No transactions found
 
-                            <td className="font-semibold text-green-600">
-                                ₹{transaction.revenue}
                             </td>
 
                         </tr>
 
-                    ))}
+                    ) : (
+
+                        transactions.map((transaction) => (
+
+                            <tr
+                                key={transaction._id}
+                                className="border-b hover:bg-blue-50"
+                            >
+
+                                <td className="py-3">
+
+                                    {transaction.productName}
+
+                                </td>
+
+                                <td>
+
+                                    {transaction.quantitySold}
+
+                                </td>
+
+                                <td className="font-semibold text-green-600">
+
+                                    ₹{transaction.revenue}
+
+                                </td>
+
+                            </tr>
+
+                        ))
+
+                    )}
 
                 </tbody>
 

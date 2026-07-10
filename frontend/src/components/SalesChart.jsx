@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import client from "../api/client";
+
 import {
     LineChart,
     Line,
@@ -8,15 +11,56 @@ import {
     ResponsiveContainer
 } from "recharts";
 
-const salesData = [
-    { week: "Week 1", sales: 120 },
-    { week: "Week 2", sales: 180 },
-    { week: "Week 3", sales: 160 },
-    { week: "Week 4", sales: 220 },
-    { week: "Week 5", sales: 260 }
-];
-
 function SalesChart() {
+
+    const [salesData, setSalesData] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchSales = async () => {
+
+        try {
+
+            const response = await client.get(
+                "/charts/weekly-sales"
+            );
+
+            setSalesData(response.data.data);
+
+        } catch (error) {
+
+            console.error(error);
+
+        } finally {
+
+            setLoading(false);
+
+        }
+
+    };
+
+    useEffect(() => {
+
+        fetchSales();
+
+    }, []);
+
+    if (loading) {
+
+        return (
+
+            <div className="rounded-xl bg-white p-6 shadow-md">
+
+                <h2 className="text-xl font-semibold">
+
+                    Loading Chart...
+
+                </h2>
+
+            </div>
+
+        );
+
+    }
 
     return (
 
@@ -28,7 +72,10 @@ function SalesChart() {
 
             </h2>
 
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer
+                width="100%"
+                height={300}
+            >
 
                 <LineChart data={salesData}>
 
@@ -40,14 +87,14 @@ function SalesChart() {
 
                     <Tooltip/>
 
-                   <Line
-type="monotone"
-dataKey="sales"
-stroke="#2563eb"
-strokeWidth={4}
-dot={{ r: 6 }}
-activeDot={{ r: 8 }}
-/>
+                    <Line
+                        type="monotone"
+                        dataKey="sales"
+                        stroke="#2563eb"
+                        strokeWidth={4}
+                        dot={{ r: 6 }}
+                        activeDot={{ r: 8 }}
+                    />
 
                 </LineChart>
 

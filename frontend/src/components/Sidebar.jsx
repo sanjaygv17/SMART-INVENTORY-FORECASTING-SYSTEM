@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { MdAutoGraph } from "react-icons/md";
 
 import {
     MdDashboard,
@@ -40,6 +41,11 @@ const menuItems = [
         path: "/analytics",
         icon: MdAnalytics,
     },
+    {
+        name: "Prediction",
+        icon: MdAutoGraph,
+        path: "/product-prediction"
+    }
 ];
 
 function Sidebar() {
