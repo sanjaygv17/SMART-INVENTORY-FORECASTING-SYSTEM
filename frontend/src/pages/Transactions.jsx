@@ -297,16 +297,16 @@ const handleChange = (e) => {
                                 Revenue
 
                             </label>
-
-                           <ProductSearch
-    value={formData.productName}
-    onSelect={(product) =>
-        setFormData({
-            ...formData,
-            productName: product.productName
-        })
-    }
+                            <input
+    type="number"
+    name="revenue"
+    value={formData.revenue}
+    onChange={handleChange}
+    placeholder="Enter revenue"
+     className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white"
 />
+
+   
                             {
     errors.revenue && (
         <p className="mt-2 text-sm text-red-500">
