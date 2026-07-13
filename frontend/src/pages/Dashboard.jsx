@@ -119,17 +119,13 @@ function Dashboard() {
 
                         <h1 className="text-4xl font-bold text-slate-800">
 
-                            Welcome Back, Admin 👋
+                             Dashboard
 
                         </h1>
 
                     </div>
 
-                    <p className="mt-2 text-gray-500">
-
-                        Smart Inventory Management Dashboard
-
-                    </p>
+                    
 
                 </div>
 

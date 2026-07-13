@@ -1,37 +1,168 @@
+import {
+    MdNotifications,
+    MdAccountCircle,
+    MdCalendarToday,
+    MdWbSunny,
+    MdNightlightRound,
+    MdWbTwilight
+} from "react-icons/md";
+
 function Navbar() {
+
+    const now = new Date();
+
+    const hour = now.getHours();
+
+    let greeting = "";
+    let GreetingIcon = MdWbSunny;
+
+    if (hour < 12) {
+
+        greeting = "Good Morning";
+
+        GreetingIcon = MdWbSunny;
+
+    } else if (hour < 17) {
+
+        greeting = "Good Afternoon";
+
+        GreetingIcon = MdWbTwilight;
+
+    } else {
+
+        greeting = "Good Evening";
+
+        GreetingIcon = MdNightlightRound;
+
+    }
+
+    const today = now.toLocaleDateString("en-IN", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
     return (
-        <nav className="bg-blue-600 text-white shadow-md">
 
-           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+        <header className="sticky top-0 z-50 border-b border-slate-200 bg-white shadow-sm">
 
-    <div>
+            <div className="flex items-center justify-between px-8 py-5">
 
-        <h1 className="text-4xl font-bold text-slate-800">
-            Welcome Back, Admin 👋
-        </h1>
+                {/* Left Section */}
 
-        <p className="mt-2 text-white-500">
-            Smart Inventory Management Dashboard
-        </p>
+                <div className="flex items-center gap-4">
 
-    </div>
+                    <div className="rounded-full bg-blue-100 p-3">
 
-    <div className="bg-gray-100 px-5 py-3 shadow">
+                        <GreetingIcon
+                            size={28}
+                            className="text-blue-600"
+                        />
 
-        <p className="text-sm text-gray-500">
-            Today's Date
-        </p>
+                    </div>
 
-        <h2 className="text-lg font-semibold text-slate-700">
-            {new Date().toLocaleDateString()}
-        </h2>
+                    <div>
 
-    </div>
+                        <h1 className="text-3xl font-bold text-slate-800">
 
-</div>
+                            {greeting}, Admin 👋
 
-        </nav>
+                        </h1>
+
+                        <p className="mt-1 text-sm text-slate-500">
+
+                            Welcome to Smart Inventory Management System
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {/* Right Section */}
+
+                <div className="flex items-center gap-6">
+
+                    {/* Date */}
+
+                    <div className="flex items-center gap-3 rounded-xl bg-slate-100 px-5 py-3">
+
+                        <MdCalendarToday
+                            className="text-blue-600"
+                            size={22}
+                        />
+
+                        <div>
+
+                            <p className="text-xs text-slate-500">
+
+                                Today
+
+                            </p>
+
+                            <p className="font-semibold text-slate-700">
+
+                                {today}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    {/* Notifications */}
+
+                    <button className="relative rounded-full bg-slate-100 p-3 transition-all duration-300 hover:bg-blue-100">
+
+                        <MdNotifications
+                            size={24}
+                            className="text-slate-700"
+                        />
+
+                        <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
+
+                            3
+
+                        </span>
+
+                    </button>
+
+                    {/* Profile */}
+
+                    <div className="flex items-center gap-3 rounded-xl bg-slate-100 px-4 py-2 transition hover:bg-slate-200">
+
+                        <MdAccountCircle
+                            size={42}
+                            className="text-slate-700"
+                        />
+
+                        <div>
+
+                            <p className="font-semibold text-slate-800">
+
+                                Admin
+
+                            </p>
+
+                            <p className="text-xs text-slate-500">
+
+                                System Administrator
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
     );
+
 }
 
 export default Navbar;

@@ -5,9 +5,23 @@ const stockSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    currentStock: Number,
-    reorderLevel: Number,
-    leadTimeDays: Number
+
+      category: {
+        type: String,
+        required: true
+    },
+    currentStock: {
+        type: Number,
+        required: true
+    },
+    reorderLevel: {
+        type: Number,
+        required: true
+    },
+    leadTimeDays: {
+        type: Number,
+        required: true
+    }
 });
 
 module.exports = mongoose.model("Stock", stockSchema);
