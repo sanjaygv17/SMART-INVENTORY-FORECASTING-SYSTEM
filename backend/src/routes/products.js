@@ -43,8 +43,7 @@ router.get("/", async (req, res) => {
             };
         }
 
-        const products = await Product.find(query)
-            .limit(10);
+        const products = await Product.find(query);
 
         res.json({
             success: true,
