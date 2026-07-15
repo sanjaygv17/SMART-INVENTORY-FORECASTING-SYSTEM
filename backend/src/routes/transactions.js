@@ -34,6 +34,33 @@ router.get("/recent", async (req, res) => {
 
 });
 
+router.get("/product/:productName", async (req, res) => {
+
+    try {
+
+        const transactions = await Transaction
+            .find({
+                productName: req.params.productName
+            })
+            .sort({ transactionDate: -1 })
+            .limit(5);
+
+        res.json({
+            success: true,
+            data: transactions
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
+
 router.post("/", async (req, res) => {
     try {
 

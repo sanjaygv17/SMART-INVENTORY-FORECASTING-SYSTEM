@@ -3,6 +3,50 @@ const router = express.Router();
 
 const Product = require("../models/Product");
 
+router.put("/:id", async (req, res) => {
+
+    try {
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+
+            req.params.id,
+
+            req.body,
+
+            {
+                new: true,
+                runValidators: true
+            }
+
+        );
+
+        if (!updatedProduct) {
+
+            return res.status(404).json({
+                success: false,
+                message: "Product not found"
+            });
+
+        }
+
+        res.json({
+            success: true,
+            data: updatedProduct
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
+
 router.post("/", async (req, res) => {
 
     try {

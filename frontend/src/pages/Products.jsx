@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import client from "../api/client";
 
+
 import ProductTable from "../components/ProductTable";
 import KpiCard from "../components/KpiCard";
 
 import ProductDetailsModal from "../components/ProductDetailsModal";
+import ProductFormModal from "../components/ProductFormModal";
+
 import {
     MdInventory,
     MdCategory,
@@ -24,9 +27,13 @@ const [selectedCategory, setSelectedCategory] = useState("All");
 
 const [selectedBrand, setSelectedBrand] = useState("All");
 
-const [selectedProduct, setSelectedProduct] = useState(null);
+const [editingProduct, setEditingProduct] = useState(null);
 
-const [showViewModal, setShowViewModal] = useState(false);
+const [showEditModal, setShowEditModal] = useState(false);
+
+const [selectedProduct, setSelectedProduct] = useState(null);
+const [showModal, setShowModal] = useState(false);
+
 
 
     const fetchProducts = async () => {
@@ -137,15 +144,47 @@ const brands = [
 
     setSelectedProduct(product);
 
-    setShowViewModal(true);
+    setShowModal(true);
 
 };
 
-    const handleEdit = (product) => {
 
-        console.log("Edit", product);
 
-    };
+   const handleEdit = (product) => {
+
+    setEditingProduct(product);
+
+    setShowEditModal(true);
+
+};
+
+const handleSave = async (updatedData) => {
+
+    try {
+
+        await client.put(
+
+            `/products/${editingProduct._id}`,
+
+            updatedData
+
+        );
+
+        fetchProducts();
+
+        setShowEditModal(false);
+
+        setEditingProduct(null);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+};
 
     const handleDelete = (product) => {
 
@@ -349,9 +388,37 @@ const brands = [
 />
 
 <ProductDetailsModal
+
     product={selectedProduct}
-    open={showViewModal}
-    onClose={() => setShowViewModal(false)}
+
+    open={showModal}
+
+    onClose={() => {
+
+        setShowModal(false);
+
+        setSelectedStock(null);
+
+    }}
+
+/>
+
+<ProductFormModal
+
+    open={showEditModal}
+
+    product={editingProduct}
+
+    onClose={() => {
+
+        setShowEditModal(false);
+
+        setEditingProduct(null);
+
+    }}
+
+    onSave={handleSave}
+
 />
 
         </div>
