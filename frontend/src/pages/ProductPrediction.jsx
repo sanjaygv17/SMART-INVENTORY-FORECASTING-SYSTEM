@@ -7,6 +7,57 @@ function ProductPrediction() {
     const [result, setResult] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [suggestions, setSuggestions] = useState([]);
+
+const [showSuggestions, setShowSuggestions] = useState(false);
+
+const [loadingSuggestions, setLoadingSuggestions] = useState(false);
+
+const fetchSuggestions = async (search) => {
+
+    if (!search.trim()) {
+
+        setSuggestions([]);
+
+        setShowSuggestions(false);
+
+        return;
+
+    }
+
+    try {
+
+        setLoadingSuggestions(true);
+
+        const endpoint =
+
+            predictionType === "product"
+
+                ? `/products?search=${search}`
+
+                : `/categories?search=${search}`;
+
+        const response = await client.get(endpoint);
+
+        setSuggestions(response.data.data);
+
+        setShowSuggestions(true);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+    finally {
+
+        setLoadingSuggestions(false);
+
+    }
+
+};
 
     const handlePredict = async (event) => {
         event.preventDefault();
@@ -107,7 +158,13 @@ function ProductPrediction() {
                             id="prediction-input"
                             type="text"
                             value={input}
-                            onChange={(e) => setInput(e.target.value)}
+                            onChange={(e) => {
+
+    setInput(e.target.value);
+
+    fetchSuggestions(e.target.value);
+
+}}
                             placeholder={
                                 predictionType === "product"
                                     ? "Enter Product Name"
@@ -115,6 +172,69 @@ function ProductPrediction() {
                             }
                             className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:bg-white"
                         />
+                        {showSuggestions && (
+
+<div className="mt-2 max-h-60 overflow-y-auto rounded-xl border bg-white shadow-lg">
+
+    {loadingSuggestions ? (
+
+        <div className="p-3 text-gray-500">
+
+            Searching...
+
+        </div>
+
+    ) : suggestions.length === 0 ? (
+
+        <div className="p-3 text-gray-500">
+
+            No Results
+
+        </div>
+
+    ) : (
+
+        suggestions.map((item) => (
+
+            <div
+
+                key={item._id || item.category}
+
+                onClick={() => {
+
+                    setInput(
+
+                        predictionType === "product"
+
+                            ? item.productName
+
+                            : item.category
+
+                    );
+
+                    setShowSuggestions(false);
+
+                }}
+
+                className="cursor-pointer border-b p-3 hover:bg-blue-100"
+
+            >
+
+                {predictionType === "product"
+
+                    ? item.productName
+
+                    : item.category}
+
+            </div>
+
+        ))
+
+    )}
+
+</div>
+
+)}
                     </div>
 
                     <button

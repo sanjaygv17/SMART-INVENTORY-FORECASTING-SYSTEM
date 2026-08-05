@@ -15,6 +15,10 @@ function Transactions() {
         revenue: ""
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    
+
+    
 
 
 
@@ -31,6 +35,7 @@ function Transactions() {
     try {
         setLoadingProducts(true);
 
+        
         const response = await client.get(`/products?search=${searchTerm}`);
 
         console.log(response.data);
@@ -97,12 +102,7 @@ const handleSubmit = async (e) => {
 
         
 
-        setFormData({
-            productName: "",
-            quantitySold: "",
-            revenue: ""
-        });
-
+      
         setErrors({});
 
     } catch (error) {
@@ -143,6 +143,29 @@ const handleChange = (e) => {
     }
 
 };
+useEffect(() => {
+
+    if (!selectedProduct) return;
+
+    const quantity = Number(formData.quantitySold || 0);
+
+    const sellingPrice = Number(selectedProduct.sellingPrice || 0);
+
+    setFormData(prev => ({
+
+        ...prev,
+
+        revenue: quantity * sellingPrice
+
+    }));
+
+}, [
+
+    formData.quantitySold,
+
+    selectedProduct
+
+]);
 
     return (
 
@@ -220,16 +243,21 @@ const handleChange = (e) => {
 
                 <div
                     key={product._id}
-                    onClick={() => {
+                   onClick={() => {
 
-                        setFormData({
-                            ...formData,
-                            productName: product.productName
-                        });
+    // Save the complete selected product
+    setSelectedProduct(product);
 
-                        setShowSuggestions(false);
+    // Update only the product name in the form
+    setFormData(prev => ({
+        ...prev,
+        productName: product.productName
+    }));
 
-                    }}
+    // Hide suggestions
+    setShowSuggestions(false);
+
+}}
                     className="cursor-pointer border-b p-3 hover:bg-blue-100"
                 >
 
@@ -257,8 +285,85 @@ const handleChange = (e) => {
         </p>
     )
 }
+{selectedProduct && (
+
+<div className="rounded-xl bg-blue-50 p-5">
+
+    <div className="grid grid-cols-2 gap-4">
+
+        <div>
+
+            <p className="text-sm text-gray-500">
+
+                Category
+
+            </p>
+
+            <p className="font-semibold">
+
+                {selectedProduct.category}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <p className="text-sm text-gray-500">
+
+                Brand
+
+            </p>
+
+            <p className="font-semibold">
+
+                {selectedProduct.brand}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <p className="text-sm text-gray-500">
+
+                Selling Price
+
+            </p>
+
+            <p className="font-semibold">
+
+                ₹{selectedProduct.sellingPrice}
+
+            </p>
+
+        </div>
+
+        <div>
+
+            <p className="text-sm text-gray-500">
+
+                Cost Price
+
+            </p>
+
+            <p className="font-semibold">
+
+                ₹{selectedProduct.costPrice}
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+)}
 
                         </div>
+
+                        
 
                         {/* Quantity */}
 
@@ -297,14 +402,19 @@ const handleChange = (e) => {
                                 Revenue
 
                             </label>
-                            <input
+                       <input
+
     type="number"
-    name="revenue"
+
     value={formData.revenue}
-    onChange={handleChange}
-    placeholder="Enter revenue"
-     className="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-slate-800 outline-none transition focus:border-blue-500 focus:bg-white"
-/>
+
+    readOnly
+
+    placeholder="Revenue will be calculated automatically"
+
+    className="w-full rounded-2xl border border-slate-300 bg-gray-100 px-4 py-3"
+
+ />
 
    
                             {

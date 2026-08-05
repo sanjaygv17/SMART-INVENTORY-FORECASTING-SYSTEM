@@ -10,7 +10,7 @@ from sklearn.preprocessing import LabelEncoder
 
 CLEANED_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'cleaned')
 MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'models')
-IN_FILE = os.path.join(CLEANED_PATH, 'product_weekly.csv')
+IN_FILE = os.path.join(CLEANED_PATH, 'final_product_forecasting.csv')
 
 
 def main():

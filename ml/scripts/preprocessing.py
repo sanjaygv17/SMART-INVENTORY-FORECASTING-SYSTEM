@@ -17,14 +17,7 @@ CLEANED_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'data', 'clea
 RAW_FILE = os.path.join(RAW_PATH, 'sample dataset.csv')
 OUT_FILE = os.path.join(CLEANED_PATH, 'cleaned_data.csv')
 
-product_mapping = {
-    ('Dairy', 'Amul'): ['Amul Milk', 'Amul Butter', 'Amul Cheese', 'Amul Curd'],
-    ('Dairy', 'Nestle'): ['Nestle Yogurt', 'Nestle Milk Powder'],
-    ('Snacks', 'PepsiCo'): ['Lays Classic', 'Lays Magic Masala', 'Kurkure Masala', 'Doritos Nacho'],
-    ('Snacks', 'Parle'): ['Parle-G Biscuits', 'Monaco Biscuits', 'Hide & Seek'],
-    ('Beverages', 'PepsiCo'): ['Pepsi 750ml', 'Mountain Dew', '7UP Bottle'],
-    ('Grocery', 'Tata'): ['Tata Salt', 'Tata Sampann Dal', 'Tata Rice'],
-}
+from product_mapping import product_mapping
 
 
 def main():
