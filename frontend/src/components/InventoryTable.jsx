@@ -2,7 +2,9 @@ import InventoryRow from "./InventoryRow";
 
 function InventoryTable({
 
-    inventory
+    inventory,
+
+    onRestock
 
 }) {
 
@@ -54,6 +56,12 @@ function InventoryTable({
 
                             </th>
 
+                            <th className="px-6 py-4 text-left">
+
+                                Restock
+
+                            </th>
+
                         </tr>
 
                     </thead>
@@ -65,7 +73,7 @@ function InventoryTable({
                             <tr>
 
                                 <td
-                                    colSpan={6}
+                                    colSpan={7}
                                     className="py-10 text-center text-gray-500"
                                 >
 
@@ -90,6 +98,8 @@ function InventoryTable({
                                     currentStock={item.currentStock}
 
                                     reorderLevel={item.reorderLevel}
+
+                                    onRestock={() => onRestock(item)}
 
                                 />
 

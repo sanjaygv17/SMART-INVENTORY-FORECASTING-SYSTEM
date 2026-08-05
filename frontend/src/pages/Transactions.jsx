@@ -2,6 +2,7 @@ import { useState } from "react";
 import client from "../api/client";
 import { useEffect } from "react";
 import ProductSearch from "../components/ProductSearch";
+import toast from "react-hot-toast";
 
 function Transactions() {
 
@@ -16,6 +17,7 @@ function Transactions() {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedStock, setSelectedStock] = useState(null);
     
 
     
@@ -48,6 +50,25 @@ function Transactions() {
     } finally {
         setLoadingProducts(false);
     }
+};
+const fetchStockDetails = async (productName) => {
+
+    try {
+
+        const response = await client.get(
+            `/stocks/product/${encodeURIComponent(productName)}`
+        );
+
+        setSelectedStock(response.data.data);
+
+    } catch (error) {
+
+        console.error(error);
+
+        setSelectedStock(null);
+
+    }
+
 };
 
 
@@ -99,6 +120,7 @@ const handleSubmit = async (e) => {
         );
 
         console.log(response.data);
+        toast.success("Transaction saved successfully!");
 
         
 
@@ -109,10 +131,10 @@ const handleSubmit = async (e) => {
 
         console.error(error);
 
-        alert(
-            error.response?.data?.message ||
-            "Failed to save transaction."
-        );
+       toast.error(
+    error.response?.data?.message ||
+    "Failed to save transaction."
+);
 
     } finally {
 
@@ -243,18 +265,17 @@ useEffect(() => {
 
                 <div
                     key={product._id}
-                   onClick={() => {
+               onClick={() => {
 
-    // Save the complete selected product
     setSelectedProduct(product);
 
-    // Update only the product name in the form
+    fetchStockDetails(product.productName);
+
     setFormData(prev => ({
         ...prev,
         productName: product.productName
     }));
 
-    // Hide suggestions
     setShowSuggestions(false);
 
 }}
@@ -287,22 +308,22 @@ useEffect(() => {
 }
 {selectedProduct && (
 
-<div className="rounded-xl bg-blue-50 p-5">
+<div className="mt-4 rounded-2xl border border-blue-200 bg-blue-50 p-5">
 
-    <div className="grid grid-cols-2 gap-4">
+    <h3 className="mb-4 text-lg font-semibold text-slate-800">
+        Product Information
+    </h3>
+
+    <div className="grid gap-4 md:grid-cols-2">
 
         <div>
 
             <p className="text-sm text-gray-500">
-
                 Category
-
             </p>
 
             <p className="font-semibold">
-
                 {selectedProduct.category}
-
             </p>
 
         </div>
@@ -310,15 +331,11 @@ useEffect(() => {
         <div>
 
             <p className="text-sm text-gray-500">
-
                 Brand
-
             </p>
 
             <p className="font-semibold">
-
                 {selectedProduct.brand}
-
             </p>
 
         </div>
@@ -326,34 +343,31 @@ useEffect(() => {
         <div>
 
             <p className="text-sm text-gray-500">
-
                 Selling Price
-
             </p>
 
-            <p className="font-semibold">
-
+            <p className="font-semibold text-green-700">
                 ₹{selectedProduct.sellingPrice}
-
             </p>
 
         </div>
+
 
         <div>
 
             <p className="text-sm text-gray-500">
-
-                Cost Price
-
+                Current Stock
             </p>
 
-            <p className="font-semibold">
-
-                ₹{selectedProduct.costPrice}
-
+            <p className="font-semibold text-blue-700">
+                {selectedStock
+                    ? selectedStock.currentStock
+                    : "Loading..."}
             </p>
 
         </div>
+
+      
 
     </div>
 

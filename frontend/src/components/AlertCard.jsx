@@ -54,7 +54,7 @@ function AlertCard({
             className={`rounded-xl border-l-4 ${style.border} ${style.bg} p-6 shadow-md transition hover:shadow-lg`}
         >
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
 
                 <Icon
                     size={28}

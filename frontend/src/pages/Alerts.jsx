@@ -207,7 +207,7 @@ if (loading) {
 
             {/* Alert Cards */}
 
-            <div className="grid gap-6 lg:grid-cols-2">
+            <div className="grid gap-6 lg:grid-cols-3">
 
                 {filteredAlerts.map((alert) => (
 

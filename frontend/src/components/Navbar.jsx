@@ -1,10 +1,16 @@
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import client from "../api/client";
+
 import {
     MdNotifications,
     MdAccountCircle,
     MdCalendarToday,
     MdWbSunny,
     MdNightlightRound,
-    MdWbTwilight
+    MdWbTwilight,
+    MdLogout,
+    MdPerson
 } from "react-icons/md";
 
 function Navbar() {
@@ -12,6 +18,47 @@ function Navbar() {
     const now = new Date();
 
     const hour = now.getHours();
+
+    const navigate = useNavigate();
+
+const [alertCount, setAlertCount] = useState(0);
+
+const [showProfile, setShowProfile] = useState(false);
+
+const profileRef = useRef(null);
+
+const fetchAlertCount = async () => {
+
+    try {
+
+        const response = await client.get("/alerts");
+
+        console.log(response.data);
+
+        const alerts = response.data.data || [];
+
+        const criticalAlerts = alerts.filter(
+            alert => alert.severity === "Critical"
+        );
+
+        setAlertCount(criticalAlerts.length);
+
+    } catch (error) {
+
+        console.error(error);
+
+        setAlertCount(0);
+
+    }
+
+};
+useEffect(() => {
+
+    fetchAlertCount();
+
+}, []);
+
+
 
     let greeting = "";
     let GreetingIcon = MdWbSunny;
@@ -42,6 +89,31 @@ function Navbar() {
         month: "long",
         year: "numeric"
     });
+    useEffect(() => {
+
+    const handleClickOutside = (event) => {
+
+        if (
+            profileRef.current &&
+            !profileRef.current.contains(event.target)
+        ) {
+            setShowProfile(false);
+        }
+
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+
+        document.removeEventListener(
+            "mousedown",
+            handleClickOutside
+        );
+
+    };
+
+}, []);
 
     return (
 
@@ -113,7 +185,13 @@ function Navbar() {
 
                     {/* Notifications */}
 
-                    <button className="relative rounded-full bg-slate-100 p-3 transition-all duration-300 hover:bg-blue-100">
+                   <button
+
+    onClick={() => navigate("/alerts")}
+
+    className="relative rounded-full bg-slate-100 p-3 transition-all duration-300 hover:bg-blue-100"
+
+>
 
                         <MdNotifications
                             size={24}
@@ -122,7 +200,7 @@ function Navbar() {
 
                         <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white">
 
-                            3
+                            {alertCount}
 
                         </span>
 
@@ -130,30 +208,62 @@ function Navbar() {
 
                     {/* Profile */}
 
-                    <div className="flex items-center gap-3 rounded-xl bg-slate-100 px-4 py-2 transition hover:bg-slate-200">
+                   {/* Profile */}
 
-                        <MdAccountCircle
-                            size={42}
-                            className="text-slate-700"
-                        />
+<div
+    ref={profileRef}
+    className="relative"
+>
+    <button
+        onClick={() => setShowProfile(!showProfile)}
+        className="flex items-center gap-3 rounded-xl bg-slate-100 px-4 py-2 transition hover:bg-slate-200"
+    >
+        <MdAccountCircle
+            size={42}
+            className="text-slate-700"
+        />
 
-                        <div>
+        <div className="text-left">
+            <p className="font-semibold text-slate-800">
+                Admin
+            </p>
 
-                            <p className="font-semibold text-slate-800">
+            <p className="text-xs text-slate-500">
+                System Administrator
+            </p>
+        </div>
+    </button>
 
-                                Admin
+    {showProfile && (
+        <div className="absolute right-0 mt-3 w-56 overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl">
 
-                            </p>
+            <button
+                className="flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-slate-100"
+            >
+                <MdPerson
+                    size={22}
+                    className="text-slate-600"
+                />
 
-                            <p className="text-xs text-slate-500">
+                <span>My Profile</span>
+            </button>
 
-                                System Administrator
+            <button
+                className="flex w-full items-center gap-3 px-5 py-4 text-left transition hover:bg-slate-100"
+            >
+                <MdLogout
+                    size={22}
+                    className="text-red-500"
+                />
 
-                            </p>
+                <span className="text-red-500">
+                    Logout
+                </span>
+            </button>
 
-                        </div>
-
-                    </div>
+        </div>
+    )}
+</div>
 
                 </div>
 

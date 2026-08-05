@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 const Stock = require("../models/Stock");
+const { restockStock } = require("../services/stockService");
 
 router.get("/", async (req, res) => {
 
@@ -81,5 +82,39 @@ router.get("/product/:productName", async (req, res) => {
     }
 
 })
+
+router.patch("/:id/restock", async (req, res) => {
+
+    try {
+
+        const quantity = Number(req.body.quantity);
+
+        if (!Number.isInteger(quantity) || quantity <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Quantity must be a positive integer"
+            });
+        }
+
+        const stock = await restockStock(req.params.id, quantity);
+
+        res.json({
+            success: true,
+            message: "Stock restocked successfully",
+            data: stock
+        });
+
+    }
+
+    catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+});
 
 module.exports = router;
