@@ -12,6 +12,7 @@ const productRoutes = require("./src/routes/products");
 const chartRoutes = require("./src/routes/charts");
 const alertRoutes = require("./src/routes/alerts");
 const stockRoutes = require("./src/routes/stocks");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 const path = require("path");
 
 const app = express();
@@ -33,6 +34,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/charts", chartRoutes);
 app.use("/api/alerts", alertRoutes);
 app.use("/api/stocks", stockRoutes);
+app.use("/api/analytics", analyticsRoutes);
 app.use(
 
     "/uploads",
