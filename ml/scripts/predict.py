@@ -18,7 +18,7 @@ DATA_DIR = os.path.join(BASE_DIR, "..", "..", "data", "cleaned")
 
 PRODUCT_MODEL = os.path.join(MODELS_DIR, "product_xgboost_model.pkl")
 PRODUCT_ENCODER = os.path.join(MODELS_DIR, "product_encoder.pkl")
-PRODUCT_DATA = os.path.join(DATA_DIR, "final_product_forecasting.csv")
+PRODUCT_DATA = os.path.join(DATA_DIR, "product_weekly.csv")
 
 CATEGORY_MODEL = os.path.join(MODELS_DIR, "category_xgboost_model.pkl")
 CATEGORY_ENCODER = os.path.join(MODELS_DIR, "category_encoder.pkl")
